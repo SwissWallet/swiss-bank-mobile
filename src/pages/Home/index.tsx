@@ -73,7 +73,7 @@ function Home(): JSX.Element {
                 </Box>
 
                 <Box borderColor="#A7A7A7" borderWidth={1} borderRadius={5} mt={30}>
-                    <Text ml={15} mt={15} color="#dcdada" mb={15}>
+                    <Text ml={15} mt={15} color="#dcdada" mb={15} fontSize={18}>
                         Movimentações
                     </Text>
 

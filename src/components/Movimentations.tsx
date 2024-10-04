@@ -10,17 +10,17 @@ function Movimentations(): JSX.Element {
                 </Box>
                 <Box>
                     <Box ml={10}>
-                        <Text fontSize={15} color="#dbd9d9" fontWeight={'$medium'}>
+                        <Text fontSize={17} color="#dbd9d9" fontWeight={'$medium'}>
                             **** 7836
                         </Text>
-                        <Text fontSize={15} color="#dbd9d9" fontWeight={'$medium'}>
+                        <Text fontSize={17} color="#dbd9d9" fontWeight={'$medium'}>
                             BRL Conta
                         </Text>
                     </Box>
                 </Box>
             </Box>
             <Box mr={15}>
-                <Text color="#fff" fontWeight={'$medium'}>
+                <Text color="#fff" fontWeight={'$medium'} fontSize={17}>
                     - R$ 800,00
                 </Text>
             </Box>
