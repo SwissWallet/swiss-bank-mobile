@@ -94,7 +94,3 @@ Este documento descreve o fluxo de trabalho de Git adotado por nossa equipe para
   git push origin <nome_da_branch_atual>
 
 **Solicitar pull request via GitHub com base nos padrões definidos.**
-
-<p align="center">
-  <img src="docs/images/bordao.png" alt="Tela do Projeto" width="600" />
-</p>
