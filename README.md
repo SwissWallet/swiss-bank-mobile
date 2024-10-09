@@ -1,6 +1,6 @@
-# SwissWallet
+# SwissBank
 
-Bem-vindo ao Projeto SwissWallet! Aqui você encontrará informações importantes e links úteis.
+Bem-vindo ao Projeto SwissBank! Aqui você encontrará informações importantes e links úteis.
 
 
 
@@ -11,15 +11,15 @@ Projeto desenvolvido por alunos do SENAI Suíço Brasileiro, a Swiss Wallet é u
 
 A Swiss Wallet permite alunos com baixa renda solicitar um auxílio para suprir suas necessidades de estudos, podendo assim dar o seu melhor em sala de aula. Na nossa carteira digital é possível flexibilizar pontos com o objetivo de se adaptar a necessidade do aluno. Dentre elas transporte, alimentação dentro da instituição, estudos, entre outras.
 
-Além disso, a SwissWallet possibilita a arrecadação de verba para AAPM com a compra de pontos e doações, ela possue uma store com itens exclusivos que são adquiridos apenas via app. Os alunos podem trocar seus pontos por combos AAPM na cantina com preços acessíveis, e também ganhar bolsas em cursos como recompensa pela sua contribuição a AAPM.
+Além disso, a SwissBank possibilita a arrecadação de verba para AAPM com a compra de pontos e doações, ela possue uma store com itens exclusivos que são adquiridos apenas via app. Os alunos podem trocar seus pontos por combos AAPM na cantina com preços acessíveis, e também ganhar bolsas em cursos como recompensa pela sua contribuição a AAPM.
 
 # Repositórios do projeto 
 
 | Stack               | Link                                      |
 |--------------------|-------------------------------------------|
-| Back-End    | https://github.com/SwissWallet/swiss-wallet-backend  |
-| Web       | https://github.com/SwissWallet/swiss-wallet-web |
-| Mobile  | https://github.com/SwissWallet/swiss-wallet-mobile |
+| Back-End    | https://github.com/SwissBank/swiss-wallet-backend  |
+| Web       | https://github.com/SwissBank/swiss-wallet-web |
+| Mobile  | https://github.com/SwissBank/swiss-wallet-mobile |
 
 # Git Flow - Guia de Trabalho
 
