@@ -3,8 +3,12 @@ import { Box, Text, View, Image } from "@gluestack-ui/themed";
 import { BellRing, HandCoins, User } from "lucide-react-native";
 import { TouchableOpacity } from "react-native";
 import Movimentations from "../../components/Movimentations";
+import { useNavigation } from "@react-navigation/native";
 
 function Home(): JSX.Element {
+
+    const navigation = useNavigation();
+
     return (
         <View bgColor="#1B1B1B" flex={1}>
 
@@ -52,7 +56,7 @@ function Home(): JSX.Element {
                         </Box>
                     </Box>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Pix' as never)}>
                         <Box height={50} width={50} bgColor="#2C2C2C" borderRadius={5} justifyContent="center" alignItems="center">
                             <HandCoins color="#fff" />
                         </Box>

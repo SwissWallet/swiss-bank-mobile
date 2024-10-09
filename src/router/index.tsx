@@ -4,8 +4,8 @@ import AuthRouter from "./authRouter";
 
 function Router():JSX.Element {
     return(
-        // <AppRouter />
-        <AuthRouter />
+        <AppRouter />
+        // <AuthRouter />
     );
 }
 

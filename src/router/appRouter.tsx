@@ -2,8 +2,9 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../pages/Home";
-import { HomeIcon } from "lucide-react-native";
+import { HandCoins, HomeIcon } from "lucide-react-native";
 import { View } from "@gluestack-ui/themed";
+import Pix from "../pages/Pix/Pix";
 
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
@@ -31,16 +32,28 @@ function HomeTab() {
         >
             <Bottom.Screen name="Home" component={Home} 
                 options={{
-                    tabBarIcon: ({color, size}) => {
+                    tabBarIcon: ({color, size, focused}) => {
                         return (
-                            <View bgColor="#2C2C2C" width={45} height={45} justifyContent="center" alignItems="center" borderRadius={5}>
-                                <HomeIcon color={'red'} size={size}/> 
+                            <View bgColor={focused ? "#fff" : "#2C2C2C"} width={45} height={45} justifyContent="center" alignItems="center" borderRadius={5}>
+                                <HomeIcon color={focused ? "#000" : "red"} size={size}/> 
                             </View>
                         );
                     },
                     
                 }}
             
+            />
+
+            <Bottom.Screen name="Pix" component={Pix}
+                options={{
+                    tabBarIcon: ({color, size, focused}) => {
+                        return (
+                            <View bgColor={focused ? "#fff" : "#2C2C2C"} width={45} height={45} justifyContent="center" alignItems="center" borderRadius={5}>
+                                <HandCoins color={focused ? "#000" : "red"} size={size}/> 
+                            </View>
+                        );
+                    }
+                }}
             />
         </Bottom.Navigator>
     );

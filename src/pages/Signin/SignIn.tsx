@@ -25,7 +25,7 @@ function SignIn(): JSX.Element {
                             <InputSlot ml={10}>
                                 <User color='#fff' />
                             </InputSlot>
-                            <InputField placeholder="Digite seu email" placeholderTextColor="#fff" />
+                            <InputField placeholder="Digite seu email" placeholderTextColor="#fff" color="#fff"/>
                         </Input>
 
                         <Input height={50} borderColor="#fff">
