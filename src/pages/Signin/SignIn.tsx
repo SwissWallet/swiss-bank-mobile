@@ -1,15 +1,37 @@
 import React, { useState } from "react";
 import { Box, Heading, Image, Input, InputField, InputSlot, Text, View } from "@gluestack-ui/themed";
-import { Keyboard, TouchableOpacity, TouchableWithoutFeedback, TouchableWithoutFeedbackBase } from "react-native";
+import { Alert, Keyboard, TouchableOpacity, TouchableWithoutFeedback, TouchableWithoutFeedbackBase } from "react-native";
 import { Eye, EyeOff, LockIcon, User } from "lucide-react-native";
+import api from "../../services/api";
 
 function SignIn(): JSX.Element {
 
-    const [hiddenPassword, setHiddenPassword] = useState(true);
+    const [hiddenPassword, setHiddenPassword] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleState = () => {
         setHiddenPassword(prevState => !prevState);
     }
+
+    function verifyInputs() {
+        if(!email || !password) return Alert.alert('Campos Inválidos', 'Email ou senha está em branco');
+        handleLogin();
+    }
+
+    async function handleLogin() {
+        const response = await api.post('auth', {
+            "username": email,
+            "password": password
+        })
+        .then((json) => {
+            return Alert.alert('Login', 'Login efetuado');
+        })
+        .catch((err) => {
+            console.log(err.status);
+            if (err.status === 400) return Alert.alert('Login', 'Email ou senha incorreto');
+        });
+    } 
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> 
@@ -25,7 +47,7 @@ function SignIn(): JSX.Element {
                             <InputSlot ml={10}>
                                 <User color='#fff' />
                             </InputSlot>
-                            <InputField placeholder="Digite seu email" placeholderTextColor="#fff" color="#fff"/>
+                            <InputField placeholder="Digite seu email" placeholderTextColor="#fff" color="#fff" onChangeText={(text) => setEmail(text)} />
                         </Input>
 
                         <Input height={50} borderColor="#fff">
@@ -33,7 +55,7 @@ function SignIn(): JSX.Element {
                                 <LockIcon color='#fff' />
                             </InputSlot>
 
-                            <InputField placeholder="Digite sua senha" placeholderTextColor="#fff" type={hiddenPassword ? 'text' : 'password'} color="#fff" />
+                            <InputField placeholder="Digite sua senha" placeholderTextColor="#fff" type={hiddenPassword ? 'text' : 'password'} color="#fff" onChangeText={(text) => setPassword(text)} />
 
                             <InputSlot mr={10}>
                                 <TouchableOpacity onPress={handleState}>
@@ -51,7 +73,7 @@ function SignIn(): JSX.Element {
                         </Box>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={verifyInputs}>
                         <Box bgColor="#C50000" height={50} borderRadius={5} justifyContent="center" alignItems="center">
                             <Text color="#fff" fontWeight={'$semibold'}>
                                 Login
