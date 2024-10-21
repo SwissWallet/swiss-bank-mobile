@@ -1,79 +1,96 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# SwissBank
 
-# Getting Started
+Bem-vindo ao Projeto SwissBank! Aqui você encontrará informações importantes e links úteis.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
-## Step 1: Start the Metro Server
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+# Descrição do projeto
+Swiss Wallet
 
-To start Metro, run the following command from the _root_ of your React Native project:
+Projeto desenvolvido por alunos do SENAI Suíço Brasileiro, a Swiss Wallet é uma carteira digital destinada a promover a importância da AAPM e forcener ajuda a ela na administração de atividades sociais em busca de ajudar os alunos.
 
-```bash
-# using npm
-npm start
+A Swiss Wallet permite alunos com baixa renda solicitar um auxílio para suprir suas necessidades de estudos, podendo assim dar o seu melhor em sala de aula. Na nossa carteira digital é possível flexibilizar pontos com o objetivo de se adaptar a necessidade do aluno. Dentre elas transporte, alimentação dentro da instituição, estudos, entre outras.
 
-# OR using Yarn
-yarn start
-```
+Além disso, a SwissBank possibilita a arrecadação de verba para AAPM com a compra de pontos e doações, ela possue uma store com itens exclusivos que são adquiridos apenas via app. Os alunos podem trocar seus pontos por combos AAPM na cantina com preços acessíveis, e também ganhar bolsas em cursos como recompensa pela sua contribuição a AAPM.
 
-## Step 2: Start your Application
+# Repositórios do projeto 
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+| Stack               | Link                                      |
+|--------------------|-------------------------------------------|
+| Back-End    | https://github.com/SwissBank/swiss-wallet-backend  |
+| Web       | https://github.com/SwissBank/swiss-wallet-web |
+| Mobile  | https://github.com/SwissBank/swiss-wallet-mobile |
 
-### For Android
+# Git Flow - Guia de Trabalho
 
-```bash
-# using npm
-npm run android
+Este documento descreve o fluxo de trabalho de Git adotado por nossa equipe para garantir um desenvolvimento eficiente e organizado. O fluxo de trabalho Git Flow ajuda a gerenciar ramificações (branches) e a integração contínua do código.
 
-# OR using Yarn
-yarn android
-```
+## Estrutura de Branches
 
-### For iOS
+1. **`Developer`**
+   - A branch `developer` é usada para o desenvolvimento de novas funcionalidades e correções de bugs.
+   - Os merges nesta branch representam o código que está pronto para ser integrado e testado na branch de `QA`.
 
-```bash
-# using npm
-npm run ios
+2. **`QA (Quality Assurance)`**
+   - Usadas para validar o código e garantir que ele atende aos padrões de qualidade antes do lançamento final.
+   - Criadas a partir da branch developer para testes de qualidade e integração.
+   - **Objetivo**: Realizar testes de QA completos e garantir que todas as funcionalidades estejam funcionando conforme esperado e sem novos problemas.
+  
+4. **`Master`**
+   - Esta é a branch principal onde o código de produção está sempre em um estado estável e pronto para ser lançado.
+   - Todos os merges na branch `master` devem ser estáveis e testados.
 
-# OR using Yarn
-yarn ios
-```
+3. **Branches de Funcionalidades (Feature Branches)**
+   - **Nome**: `feature/nome-da-funcionalidade`
+   - Criadas a partir da branch `developer` para o desenvolvimento de novas funcionalidades.
+   - Após a conclusão do desenvolvimento, deve-se fazer um pull request para a branch `develop`.
+   - Exemplo de criação: `git checkout -b feature/nome-da-funcionalidade develop`
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+4. **Branches de Correções (Hotfix Branches)**
+   - **Nome**: `hotfix/nome-da-correção`
+   - Criadas a partir da branch `master` para correção de bugs críticos em produção.
+   - Após a correção, deve-se fazer um pull request para a branch `developer`.
+   - Exemplo de criação: `git checkout -b hotfix/nome-da-correção master`
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+5. **Outras Branches**
+   - **Também é possível a utilização de outras branches semânticas de acordo com a necessidade da alteração que esta branch representa.**
 
-## Step 3: Modifying your App
+## Fluxo de Trabalho
 
-Now that you have successfully run the app, let's modify it.
+1. **Início de uma Nova Funcionalidade**
+   - Atualize a branch `developer`
+   - Crie uma branch de funcionalidade a partir de `developer`.
+   - Trabalhe na funcionalidade e faça commits frequentemente.
+   - Quando a funcionalidade estiver concluída, abra um pull request para `developer` e solicite uma revisão de código.
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+3. **Preparando um Novo Lançamento**
+   - Solicitar um merge para a branch `qas` após rigorosos testes para testar se o código está e conformidade e identificar possíveis falhas de segurança.
+   - Caso não o código não passar nos teste em **QA** se deve realizar as alterações necessárias nas sua branch de funcionalidade e repetir todo o processo.
+   - Quando estiver pronto, abra um pull request para `master`.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+4. **Correções Críticas em Produção**
+   - Crie uma branch de hotfix a partir de `master`.
+   - Corrija o problema e faça commits.
+   - Quando a correção estiver pronta, abra um pull request para `master` e `developer`.
 
-## Congratulations! :tada:
+5. **Atualização de Branches**
+   - Mantenha sua branch atualizada com `developer` para evitar conflitos.
+   - Antes de criar um pull request, faça um merge de `developer` na sua branch de funcionalidade, release ou hotfix.
 
-You've successfully run and modified your React Native App. :partying_face:
+## Comandos Úteis
 
-### Now what?
+- **Atualizar sua branch atual**:
+  ```bash
+  git pull origin <nome_da_branch_atual>
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+- **Criar e mudar para uma nova branch de funcionalidade**:
+  ```bash
+  git checkout -b feature/nome-da-funcionalidade developer
 
-# Troubleshooting
+- **Subir seu código para o repositório remoto**:
+  ```bash
+  git add .
+  git commit -m "<semântica>: <descrição>"
+  git push origin <nome_da_branch_atual>
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+**Solicitar pull request via GitHub com base nos padrões definidos.**
