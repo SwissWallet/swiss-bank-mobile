@@ -3,13 +3,18 @@ import { Box, Heading, Image, Input, InputField, InputSlot, Text, View } from "@
 import { Alert, Keyboard, TouchableOpacity, TouchableWithoutFeedback, TouchableWithoutFeedbackBase } from "react-native";
 import { Eye, EyeOff, LockIcon, User } from "lucide-react-native";
 import api from "../../services/api";
+import { useDispatch } from "react-redux";
+import { isLoged } from "../../redux/reducers/userLoged";
+import { user } from "../../redux/reducers/user";
+import { loading } from "../../redux/reducers/loading";
 
 function SignIn(): JSX.Element {
 
     const [hiddenPassword, setHiddenPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const dispatch = useDispatch();
+    
     const handleState = () => {
         setHiddenPassword(prevState => !prevState);
     }
@@ -24,8 +29,24 @@ function SignIn(): JSX.Element {
             "username": email,
             "password": password
         })
-        .then((json) => {
-            return Alert.alert('Login', 'Login efetuado');
+        .then(async (json) => {
+            const response = await api.get('users/current', {
+                headers: {
+                    'Authorization': `Bearer ${json.data.token}` 
+                }
+            })
+            .then(json => {
+                dispatch(loading(true));
+                dispatch(user(json.data));
+                dispatch(isLoged(true));
+                setTimeout(() => {
+                    dispatch(loading(false));
+                }, 10000);
+            })
+            .catch(err => {
+                dispatch(loading(false));
+                console.log(err);
+            });
         })
         .catch((err) => {
             console.log(err.status);

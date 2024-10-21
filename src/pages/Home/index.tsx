@@ -4,10 +4,12 @@ import { BellRing, HandCoins, User } from "lucide-react-native";
 import { TouchableOpacity } from "react-native";
 import Movimentations from "../../components/Movimentations";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 function Home(): JSX.Element {
 
     const navigation = useNavigation();
+    const user = useSelector((state:any) => state.user.value);
 
     return (
         <View bgColor="#1B1B1B" flex={1}>
@@ -28,7 +30,7 @@ function Home(): JSX.Element {
                                     Bem Vinda de volta,
                                 </Text>
                                 <Text color="#fff" ml={10} fontSize={14}>
-                                    Bruna Silva!
+                                    {user.name}
                                 </Text>
                             </Box>
                         </Box>
