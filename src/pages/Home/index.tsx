@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, View, Image, HStack } from "@gluestack-ui/themed";
+import { Box, Text, View, Image, HStack, ActionsheetBackdrop, ActionsheetContent, Actionsheet } from "@gluestack-ui/themed";
 import { BellRing, HandCoins, User } from "lucide-react-native";
 import { Alert, TouchableOpacity } from "react-native";
 import Movimentations from "../../components/Movimentations";
@@ -11,6 +11,19 @@ interface cardInformations {
     cardLimit: string,
     cvv: string,
     cardNumber: string
+    validity: string
+}
+
+interface userInformations {
+    accountNumber: string,
+    balance: number
+    name: string
+    user: userObject
+}
+
+interface userObject {
+    name: string,
+    cpf: string
 }
 
 function Home(): JSX.Element {
@@ -18,7 +31,9 @@ function Home(): JSX.Element {
     const navigation = useNavigation();
     const user = useSelector((state:any) => state.user.value);
     const [card, setCard] = useState<cardInformations>();
+    const [userInformation, setuserInformation] = useState<userInformations>();
     const [frontCard, setFrontCard] = useState<boolean>(false);
+    const [openModal, setOpenModal] = useState<boolean>(false);
 
     async function loadInformationsAboutCard() {
         const response = await api.get('cards/current')
@@ -29,8 +44,18 @@ function Home(): JSX.Element {
         });
     }
 
+    async function loadInformationsUser() {
+        const response = await api.get('accounts/current')
+        .then((json) => {
+            console.log(json.data);
+            setuserInformation(json.data);
+        })
+        .catch(err => console.log(err));
+    }
+
     useEffect(() => {
         loadInformationsAboutCard();
+        loadInformationsUser();
     }, []);
 
     return (
@@ -42,10 +67,12 @@ function Home(): JSX.Element {
 
                     <Box justifyContent="space-between" flexDirection="row" alignItems="center">
                         <Box flexDirection="row" alignItems="center">
-
-                            <Box width={50} height={50} bgColor="#A7A7A7" borderRadius={5} ml={10} mt={11} justifyContent="center" alignItems="center">
-                                <User color="#000" />
-                            </Box>
+                            
+                            <TouchableOpacity onPress={() => setOpenModal(!openModal)}>
+                                <Box width={50} height={50} bgColor="#A7A7A7" borderRadius={5} ml={10} mt={11} justifyContent="center" alignItems="center">
+                                    <User color="#000" />
+                                </Box>
+                            </TouchableOpacity>
 
                             <Box>
                                 <Text color="#fff" ml={10} fontSize={14} mt={6}>
@@ -72,7 +99,7 @@ function Home(): JSX.Element {
 
                         <Box width={276} flexDirection="row" justifyContent="space-between">
                             <Text color="#fff" fontWeight={'$semibold'} fontSize={32}>
-                                R$ 1700,00
+                                R$ {userInformation?.balance}
                             </Text>
                             <Text color="#A7A7A7" fontSize={17}>
                                 Pix
@@ -133,6 +160,29 @@ function Home(): JSX.Element {
                 </Box>
                 
             </View>
+            <Actionsheet isOpen={openModal} onClose={() => setOpenModal(!openModal)}>
+                <ActionsheetBackdrop />
+                <ActionsheetContent bgColor="#ffffff" >
+                    <Box width={'$full'} gap={15}>
+                        <Text alignSelf="center" fontWeight={'$bold'} fontSize={26} color="#000">
+                            Informações
+                        </Text>
+                        <Text fontWeight={'$semibold'} color="#000" fontSize={18}>
+                            Validade do cartão: {card?.validity}
+                        </Text>
+                        <Text fontWeight={'$semibold'} color="#000" fontSize={18}>
+                            Numero da conta: {userInformation?.accountNumber}
+                        </Text>
+                        <Text fontWeight={'$semibold'} color="#000" fontSize={18}>
+                            Nome: {userInformation?.user.name}
+                        </Text>
+                        <Text fontWeight={'$semibold'} color="#000" fontSize={18} mb={10}>
+                            CPF: {userInformation?.user.cpf}
+                        </Text>
+                    </Box>
+                </ActionsheetContent>
+            </Actionsheet>
+
 
         </View>
     );
