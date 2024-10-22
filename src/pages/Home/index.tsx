@@ -47,7 +47,6 @@ function Home(): JSX.Element {
     async function loadInformationsUser() {
         const response = await api.get('accounts/current')
         .then((json) => {
-            console.log(json.data);
             setuserInformation(json.data);
         })
         .catch(err => console.log(err));

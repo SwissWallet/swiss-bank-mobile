@@ -46,14 +46,6 @@ function Pix(): JSX.Element {
 
                     </Box>
 
-                    <Box justifyContent='center' alignItems='center' mb={30}>
-                        <Box w={'25%'}>
-                            <Input height={50} borderColor='#fff'>
-                                <InputField keyboardType='numeric' color='#fff' fontSize={20} onChangeText={(text:any) => setvalueTransfer(text)} value={valueTransfer} placeholder={valueTransfer.length == 0 ? '00' : valueTransfer} textAlign='center'/>
-                            </Input>
-                        </Box>
-                    </Box>
-
                     <TouchableOpacity>
                         <Box bgColor='#C50000' height={45} w={'70%'} alignSelf='center' justifyContent='center' alignItems='center' borderRadius={5}>
                             <Text color='#fff' fontSize={18}>
