@@ -42,11 +42,9 @@ function SignIn(): JSX.Element {
     } 
 
     async function loginUser(token: string) {
-        const response = await api.get('users/current', {
-                headers: {
-                    'Authorization': `Bearer ${token}` 
-                }
-            }).then((json) => {
+        api.defaults.headers['Authorization'] = `Bearer ${token}`;
+        
+        const response = await api.get('users/current').then((json) => {
                 dispatch(user(json.data));
                 dispatch(loading(false));
 

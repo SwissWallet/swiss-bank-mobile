@@ -1,15 +1,37 @@
-import React from "react";
-import { Box, Text, View, Image } from "@gluestack-ui/themed";
+import React, { useEffect, useState } from "react";
+import { Box, Text, View, Image, HStack } from "@gluestack-ui/themed";
 import { BellRing, HandCoins, User } from "lucide-react-native";
-import { TouchableOpacity } from "react-native";
+import { Alert, TouchableOpacity } from "react-native";
 import Movimentations from "../../components/Movimentations";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import api from "../../services/api";
+
+interface cardInformations {
+    cardLimit: string,
+    cvv: string,
+    cardNumber: string
+}
 
 function Home(): JSX.Element {
 
     const navigation = useNavigation();
     const user = useSelector((state:any) => state.user.value);
+    const [card, setCard] = useState<cardInformations>();
+    const [frontCard, setFrontCard] = useState<boolean>(false);
+
+    async function loadInformationsAboutCard() {
+        const response = await api.get('cards/current')
+        .then((json) => {
+            setCard(json.data);
+        }).catch(err => {
+            if (err.status) return Alert.alert('Erro', 'Erro ao carregar as informações');
+        });
+    }
+
+    useEffect(() => {
+        loadInformationsAboutCard();
+    }, []);
 
     return (
         <View bgColor="#1B1B1B" flex={1}>
@@ -65,18 +87,41 @@ function Home(): JSX.Element {
                     </TouchableOpacity>
                 </Box>
 
-                <Box mt={30}>
-                    <Image source={require('../../images/cartao-fundo.png')} alt="logo" w={'$full'} height={170} />
-                    <Text position="absolute" top={15} left={15} color="#A7A7A7" fontSize={17}>
-                        Saldo
-                    </Text>
-                    <Text position="absolute" top={44} left={15} fontSize={36} color="#fff">
-                        R$ 2654.39
-                    </Text>
-                    <Text position="absolute" top={125} left={15} fontSize={25} color="#000" fontWeight={'bold'}>
-                        ****738
-                    </Text>
-                </Box>
+                <TouchableOpacity onPress={() => setFrontCard(!frontCard)}>
+                    {frontCard ? (
+                        <Box mt={30}>
+                            <Image source={require('../../images/cartao-fundo.png')} alt="logo" w={'$full'} height={170} />
+                            <Text position="absolute" top={15} left={15} color="#A7A7A7" fontSize={17}>
+                                Numero do cartão
+                            </Text>
+                            <Text position="absolute" top={44} left={15} fontSize={36} color="#fff">
+                                {card?.cardNumber}
+                            </Text>
+                            <HStack position="absolute" top={125} left={15} justifyContent="center" alignItems="center" space="sm">
+                                <Text color="#000" fontSize={18} fontWeight={'$semibold'}> 
+                                    Cvv
+                                </Text>
+                                <Text  fontSize={25} color="#000" fontWeight={'bold'}>
+                                    {card?.cvv}
+                                </Text>
+                            </HStack>
+                        </Box>
+                    ) : (
+
+                        <Box mt={30}>
+                            <Image source={require('../../images/cartao-fundo.png')} alt="logo" w={'$full'} height={170} />
+                            <Text position="absolute" top={15} left={15} color="#A7A7A7" fontSize={17}>
+                                Limite disponível
+                            </Text>
+                            <Text position="absolute" top={44} left={15} fontSize={36} color="#fff">
+                                R$ {card?.cardLimit}
+                            </Text>
+                            <Text position="absolute" top={125} left={15} fontSize={25} color="#000" fontWeight={'bold'}>
+                                {card?.cardNumber.replace(card.cardNumber.slice(0, 5), '****')}
+                            </Text>
+                        </Box>
+                    )}
+                </TouchableOpacity>
 
                 <Box borderColor="#A7A7A7" borderWidth={1} borderRadius={5} mt={30}>
                     <Text ml={15} mt={15} color="#dcdada" mb={15} fontSize={18}>
