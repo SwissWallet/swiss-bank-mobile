@@ -30,29 +30,33 @@ function SignIn(): JSX.Element {
             "password": password
         })
         .then(async (json) => {
-            const response = await api.get('users/current', {
-                headers: {
-                    'Authorization': `Bearer ${json.data.token}` 
-                }
-            })
-            .then(json => {
-                dispatch(loading(true));
-                dispatch(user(json.data));
-                dispatch(isLoged(true));
-                setTimeout(() => {
-                    dispatch(loading(false));
-                }, 10000);
-            })
-            .catch(err => {
-                dispatch(loading(false));
-                console.log(err);
-            });
+            dispatch(loading(true));
+            dispatch(isLoged(true));
+            loginUser(json.data.token);
+            
         })
         .catch((err) => {
             console.log(err.status);
             if (err.status === 400) return Alert.alert('Login', 'Email ou senha incorreto');
         });
     } 
+
+    async function loginUser(token: string) {
+        const response = await api.get('users/current', {
+                headers: {
+                    'Authorization': `Bearer ${token}` 
+                }
+            }).then((json) => {
+                dispatch(user(json.data));
+                dispatch(loading(false));
+
+            }).catch((err) => {
+                dispatch(loading(false));
+                dispatch(isLoged(false));
+                console.log(err);
+                if (err.status) return Alert.alert('Erro', 'Algum erro inesperado aconteceu, tente novamente'); 
+            });
+    }
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> 
