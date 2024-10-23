@@ -1,13 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, HStack, Image, ImageBackground, Input, InputField, KeyboardAvoidingView, Text, View } from '@gluestack-ui/themed';
 import { Keyboard, Platform, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
+import api from '../../services/api';
+
+interface userInformations {
+    accountNumber: string,
+    balance: number
+    name: string
+    user: userObject
+}
+
+interface userObject {
+    name: string,
+    cpf: string
+}
 
 function Pix(): JSX.Element {
 
-    const [saldo, setSaldo] = useState('3200,00');
-    const [hiddenSaldo, setHiddenSaldo] = useState(true);
-    const [valueTransfer, setvalueTransfer] = useState('');
+    const [hiddenSaldo, setHiddenSaldo] = useState(false);
+    const [userInformation, setuserInformation] = useState<userInformations>();
+
+    async function loadInformationsUser() {
+        const response = await api.get('accounts/current')
+        .then((json) => {
+            setuserInformation(json.data);
+        })
+        .catch(err => console.log(err));
+    }
+
+    useEffect(() => {
+        loadInformationsUser();
+    }, []);
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -32,7 +56,7 @@ function Pix(): JSX.Element {
 
                             <HStack justifyContent='center' alignItems='center'>
                                 <Text color='#fff' mb={10} fontSize={17}>
-                                    Saldo em conta R$ {hiddenSaldo ? saldo : '****'}
+                                    Saldo em conta R$ {hiddenSaldo ? userInformation?.balance : '****'}
                                 </Text>
 
                                 <TouchableOpacity onPress={() => setHiddenSaldo(!hiddenSaldo)}>
