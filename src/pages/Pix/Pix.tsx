@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, HStack, Image, ImageBackground, Input, InputField, KeyboardAvoidingView, Text, View } from '@gluestack-ui/themed';
-import { Keyboard, Platform, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { Alert, Keyboard, Platform, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import api from '../../services/api';
 
@@ -20,6 +20,7 @@ function Pix(): JSX.Element {
 
     const [hiddenSaldo, setHiddenSaldo] = useState(false);
     const [userInformation, setuserInformation] = useState<userInformations>();
+    const [pix, setPix] = useState<string>('');
 
     async function loadInformationsUser() {
         const response = await api.get('accounts/current')
@@ -27,6 +28,20 @@ function Pix(): JSX.Element {
             setuserInformation(json.data);
         })
         .catch(err => console.log(err));
+    }
+
+
+    async function paymentPix() {
+
+        if (pix === '') return Alert.alert('Informe a chave pix');
+
+        const response = await api.post(`codes/payment?code=${pix}`)
+        .then((json) => {
+            console.log(json.data);
+        })
+        .catch(err => {
+            if (err.status === 400) return Alert.alert('Erro', 'Saldo insuficiente para realizar o pix');
+        });
     }
 
     useEffect(() => {
@@ -46,7 +61,7 @@ function Pix(): JSX.Element {
 
                     <Box mt={30} mb={30}>
                         <Input height={50} borderColor='#fff' borderRadius={5}>
-                            <InputField placeholder='Digite a chave Pix' pl={15} placeholderTextColor="#fff" fontSize={17} color='#fff' />
+                            <InputField placeholder='Digite a chave Pix' pl={15} placeholderTextColor="#fff" fontSize={17} color='#fff' onChangeText={(text) => setPix(text)}/>
                         </Input>
                     </Box>
 
@@ -70,7 +85,7 @@ function Pix(): JSX.Element {
 
                     </Box>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => paymentPix()}>
                         <Box bgColor='#C50000' height={45} w={'70%'} alignSelf='center' justifyContent='center' alignItems='center' borderRadius={5}>
                             <Text color='#fff' fontSize={18}>
                                 Pagar
