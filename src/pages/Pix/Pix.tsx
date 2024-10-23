@@ -38,19 +38,21 @@ function Pix(): JSX.Element {
         const response = await api.post(`codes/payment?code=${pix}`)
         .then((json) => {
             console.log(json.data);
+            Alert.alert("Sucesso", "Compra realizada com sucesso!!!")
         })
         .catch(err => {
             if (err.status === 400) return Alert.alert('Erro', 'Saldo insuficiente para realizar o pix');
+            if(err.status === 404) return Alert.alert("Erro", "Código pix inválido")
         });
     }
 
     useEffect(() => {
-        loadInformationsUser();
+        loadInformationsUser(); 
     }, []);
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View flex={1} bgColor="#1B1B1B" >
+            <View flex={1} bgColor="#1B1B1B"  >
 
                 <Box m={30}>
                     <Box mt={25}>
