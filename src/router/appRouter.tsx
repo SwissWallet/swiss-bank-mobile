@@ -20,11 +20,12 @@ function HomeTab() {
                         position: 'absolute',
                         borderColor: '#ffffff',
                         borderWidth: 1,
-                        bottom: 20,
+                        bottom: 15,
                         borderRadius: 10,
                         left: 30,
                         right: 30,
                         height: 65,
+                        
                     },
                     tabBarShowLabel: false
                 }

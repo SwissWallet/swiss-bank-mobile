@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, View, Image, HStack, ActionsheetBackdrop, ActionsheetContent, Actionsheet } from "@gluestack-ui/themed";
+import { Box, Text, View, Image, HStack, ActionsheetBackdrop, ActionsheetContent, Actionsheet, FlatList, MenuItem } from "@gluestack-ui/themed";
 import { BellRing, HandCoins, User } from "lucide-react-native";
 import { Alert, TouchableOpacity } from "react-native";
 import Movimentations from "../../components/Movimentations";
@@ -31,6 +31,7 @@ function Home(): JSX.Element {
     const navigation = useNavigation();
     const user = useSelector((state:any) => state.user.value);
     const [card, setCard] = useState<cardInformations>();
+    const [extract, setExtract] = useState([]);
     const [userInformation, setuserInformation] = useState<userInformations>();
     const [frontCard, setFrontCard] = useState<boolean>(false);
     const [openModal, setOpenModal] = useState<boolean>(false);
@@ -52,9 +53,20 @@ function Home(): JSX.Element {
         .catch(err => console.log(err));
     }
 
+    async function loadExtract(){
+        const response = await api.get('extracts/current')
+        .then((json) => {
+            setExtract(json.data);
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
     useEffect(() => {
         loadInformationsAboutCard();
         loadInformationsUser();
+        loadExtract();
     }, []);
 
     return (
@@ -149,12 +161,20 @@ function Home(): JSX.Element {
                     )}
                 </TouchableOpacity>
 
-                <Box borderColor="#A7A7A7" borderWidth={1} borderRadius={5} mt={30}>
+                <Box borderColor="#A7A7A7" borderWidth={1} borderRadius={5} mt={30} h={300} mb={20}>
                     <Text ml={15} mt={15} color="#dcdada" mb={15} fontSize={18}>
                         Movimentações
                     </Text>
+                    
 
-                    <Movimentations />
+                    <FlatList   
+                    data={extract}
+                    keyExtractor={(item: any) => item.id}
+                    renderItem={(item: any) => <Movimentations value={item.item.value} cardNumber={card?.cardNumber.replace(card.cardNumber.slice(0, 5), '****')}/>}
+                    showsVerticalScrollIndicator={false}
+                    scrollEnabled={true}
+                    />
+                    
                     
                 </Box>
                 
