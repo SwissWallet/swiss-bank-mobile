@@ -161,7 +161,7 @@ function Home(): JSX.Element {
                     )}
                 </TouchableOpacity>
 
-                <Box borderColor="#A7A7A7" borderWidth={1} borderRadius={5} mt={30} h={300} mb={20}>
+                <Box borderColor="#A7A7A7" borderWidth={1} borderRadius={5} mt={30} h={extract ? 300 : ''} mb={20}>
                     <Text ml={15} mt={15} color="#dcdada" mb={15} fontSize={18}>
                         Movimentações
                     </Text>
