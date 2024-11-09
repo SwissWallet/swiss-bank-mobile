@@ -3,6 +3,7 @@ import { Box, HStack, Image, ImageBackground, Input, InputField, KeyboardAvoidin
 import { Alert, Keyboard, Platform, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Eye, EyeOff } from 'lucide-react-native';
 import api from '../../services/api';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface userInformations {
     accountNumber: string,
@@ -21,6 +22,7 @@ function Pix(): JSX.Element {
     const [hiddenSaldo, setHiddenSaldo] = useState(false);
     const [userInformation, setuserInformation] = useState<userInformations>();
     const [pix, setPix] = useState<string>('');
+    Clipboard.getString().then(code => setPix(code));
 
     async function loadInformationsUser() {
         const response = await api.get('accounts/current')
@@ -57,13 +59,13 @@ function Pix(): JSX.Element {
                 <Box m={30}>
                     <Box mt={25}>
                         <Text color='#fff' fontSize={23} fontWeight={'$bold'}>
-                            Qual o valor da transferência?
+                            Chave Pix
                         </Text>
                     </Box>
 
                     <Box mt={30} mb={30}>
                         <Input height={50} borderColor='#fff' borderRadius={5}>
-                            <InputField placeholder='Digite a chave Pix' pl={15} placeholderTextColor="#fff" fontSize={17} color='#fff' onChangeText={(text) => setPix(text)}/>
+                            <InputField placeholder='Digite a chave Pix' pl={15} placeholderTextColor="#fff" fontSize={17} color='#fff' onChangeText={(text) => setPix(text)} value={pix}/>
                         </Input>
                     </Box>
 
